@@ -32,7 +32,7 @@ explanation_bool=""
 
 history=""
 explation=""
-
+question=""
 
 
 
@@ -73,13 +73,29 @@ if st.button("submit"):
                                             })
             print("Response received successfully")
             st.subheader("Response:")
+            question=response
             st.write(response.text)
         except Exception as e:
             print(f"Error occurred: {e}")
             st.error(
                 "Error: API Quota exceeded or service unavailable. Try again later."
             )
-        st.button("Show Answer")
+        if st.button("Show Answer"):
+            if explanation_bool:
+                answer_query=f"please give me a answer with explanation of {question} in detail "
+            else:
+                answer_query=f"please give just the answer of the {question} without any explanation "
+            correct_answer=model.generate_content(contents=[answer_query ],
+                                            generation_config={
+                                                "temperature": 0.3,
+                                                "max_output_tokens":700
+                                            })
+            print("Response received successfully")
+            st.subheader("Response:")
+            question=response
+            st.write(response.text)
+
+
 
 
 
